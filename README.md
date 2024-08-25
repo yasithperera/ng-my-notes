@@ -8,6 +8,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Overview
 This Angular-based application provides a user-friendly interface for creating, editing, and managing notes. It leverages the power of Angular to deliver a robust and interactive experience.
 
+<img src="public/img/ui-1.png">
+
 ## Features
 Note Creation: Easily create new notes with rich text formatting.<br>
 Note Editing: Modify existing notes to your liking.<br>
