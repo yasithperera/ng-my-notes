@@ -9,10 +9,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 This Angular-based application provides a user-friendly interface for creating, editing, and managing notes. It leverages the power of Angular to deliver a robust and interactive experience.
 
 ## Features
-Note Creation: Easily create new notes with rich text formatting.
-Note Editing: Modify existing notes to your liking.
-Note Deletion: Remove notes that are no longer needed.
-Storage: Persist notes in a cloud-based database (Firebase).
+Note Creation: Easily create new notes with rich text formatting.<br>
+Note Editing: Modify existing notes to your liking.<br>
+Note Deletion: Remove notes that are no longer needed.<br>
+Storage: Persist notes in a cloud-based database (Firebase).<br>
 
 ## Development server
 
@@ -41,10 +41,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Contributing
 Contributions are welcome! Please follow these guidelines:
 
-Fork the repository.
-Create a new branch for your feature or bug fix.   
-Make your changes and commit them.
-Push your changes to your fork.
+Fork the repository.<br>
+Create a new branch for your feature or bug fix. <br>
+Make your changes and commit them.<br>
+Push your changes to your fork.<br>
 Create a pull request to the main repository.
 
 ## License
