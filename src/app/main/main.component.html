@@ -4,16 +4,21 @@
 border-b border-0 border-solid border-gray-300 ">
   <mat-form-field appearance="outline" class="flex-grow">
     <mat-label>Note Description</mat-label>
-    <input name="description" #txt [(ngModel)]="description" matInput placeholder="Eg: Discuss Group Project">
+    <input name="description" #txt #noteNgModel=ngModel [(ngModel)]="description" matInput
+           placeholder="Eg: Discuss Group Project">
   </mat-form-field>
 
-  <button mat-button (click)="addNote(txt)">ADD</button>
+  <button #btnSaveOrUpdate mat-button
+          (click)="noteNgModel.dirty?(!isUpdating?addNote(txt):updateNote(txt)):console.log('nothing to save')">{{ isUpdating ? 'Update' : 'Add' }}
+  </button>
+  <button mat-button (click)="frm.reset();isUpdating=false;updatingNote=null">Cancel</button>
 </form>
 
 <div class="mt-5 flex gap-2 p-2">
   @for (note of noteList; track $index) {
     <div class="flex flex-col gap-2 items-center">
-      <mat-card appearance="outlined">
+      <mat-card appearance="outlined"
+                (click)="setTextOfNoteToTextField(note.description);isUpdating=true;updatingNote=note">
         <mat-card-content>{{ note.description }}</mat-card-content>
       </mat-card>
 
@@ -22,7 +27,7 @@ hover:text-red-500"
                 fontIcon="delete" inline/>
 
     </div>
-  }@empty {
+  } @empty {
     <!-- if the list is empty and tasks are still loading -->
     <div *ngIf="isLoading" class="text-center">
       Please wait, we are loading your tasks

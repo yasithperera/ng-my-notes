@@ -7,10 +7,11 @@ import {
   doc,
   Firestore,
   query,
-  Timestamp,
+  Timestamp, updateDoc,
   where
 } from "@angular/fire/firestore";
 import {Observable} from "rxjs";
+import {update} from "@angular/fire/database";
 
 export type Note = {
   _id: string,
@@ -56,5 +57,12 @@ export class NoteService {
       timestamp: Timestamp.now() /* timestamp to identify the time, note was added */
     };
     await addDoc(this.noteCollectionRef, newNote);
+  }
+
+  /* method to update a note */
+  async updateNote(updatingNote: Note) {
+    updatingNote.timestamp = Timestamp.now();
+    const docRef = doc(this.noteCollectionRef, updatingNote._id);
+    await updateDoc(docRef, updatingNote);
   }
 }

@@ -9,12 +9,13 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-main',
   standalone: true,
   imports: [
-    AppBarComponent, MatCardModule, MatIcon, MatFormField, FormsModule, MatInput, MatButton, MatLabel
+    AppBarComponent, MatCardModule, MatIcon, MatFormField, FormsModule, MatInput, MatButton, MatLabel, NgIf
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
@@ -24,18 +25,31 @@ import {MatButton} from "@angular/material/button";
 export class MainComponent {
 
   noteList: Array<Note> = [];
-  description = "";
+  description: string = "";
 
-  isLoading = true;
+  updatingNote: Note | null = null;
+
+  isLoading: boolean = true;
+
+  isUpdating: boolean = false;
 
   /* getting form reference */
   @ViewChild("frm")
   formRef!: ElementRef
 
+  @ViewChild("txt")
+  inputRef!: ElementRef;
+
   constructor(titleService: Title,
               private authService: AuthService,
               protected noteService: NoteService) {
     titleService.setTitle('My Notes app');
+
+    // this.description = "";
+    //
+    // this.updatingNote = null;
+    //
+    // this.isUpdating = false;
 
     noteService.getNotes(authService.getPrincipalEmail()!).subscribe(
       (noteList: Array<Note>) => {
@@ -70,4 +84,41 @@ export class MainComponent {
       }
     }
   }
+
+  async updateNote(txt: HTMLInputElement) {
+    if (!this.description.trim().length) {
+      txt.select();
+      txt.focus();
+      return;
+    } else {
+      this.updatingNote!.description = txt.value;
+      try {
+        await this.noteService.updateNote(this.updatingNote!)
+          .then(this.formRef.nativeElement.reset()
+            /*this.resetFormAfterUpdate*/); /* reset form after updating note */
+
+        this.updatingNote = null;
+        // this.description = "";
+        this.isUpdating = false;
+      } catch (e) {
+        console.log(e);
+        alert('Failed to update the note, try again');
+      }
+    }
+  }
+
+  setTextOfNoteToTextField(text: string) {
+    // (this.inputRef.nativeElement as HTMLInputElement).value = text;
+    // console.log("click");
+    this.description = text;
+  }
+
+  resetFormAfterUpdate(): void {
+    // this.updatingNote = null;
+    // this.description = "";
+    // this.isUpdating = false;
+    (this.inputRef.nativeElement as HTMLInputElement).value = "";
+  }
+
+  protected readonly console = console;
 }
